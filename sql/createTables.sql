@@ -28,12 +28,13 @@ CREATE TABLE Patient(
 );
 
 CREATE TABLE Reviews(
+	serial_number VARCHAR(16),
 	patient_alias VARCHAR(20),
 	doctor_alias VARCHAR(20),
 	star_rating DECIMAL(2,1),
 	comments VARCHAR(1024),
 	date_time DATETIME,
-	PRIMARY KEY (date_time, doctor_alias),
+	PRIMARY KEY (serial_number),
 	FOREIGN KEY (doctor_alias) references Doctor (alias) ON DELETE CASCADE,
 	FOREIGN KEY (patient_alias) references Patient (alias) on DELETE CASCADE
 );
@@ -44,7 +45,7 @@ CREATE TABLE  Specialization(
 	PRIMARY KEY (alias, specialization),
 	FOREIGN KEY (alias) references Doctor (alias) ON DELETE CASCADE
 );
-
+	
 CREATE TABLE Friend_Requests(
 	alias_from VARCHAR(20),
 	alias_to VARCHAR(20),
@@ -53,3 +54,4 @@ CREATE TABLE Friend_Requests(
 	FOREIGN KEY (alias_from) references Patient (alias) ON DELETE CASCADE,
 	FOREIGN KEY (alias_to) references Patient (alias) ON DELETE CASCADE
 );
+
