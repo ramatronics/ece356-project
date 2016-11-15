@@ -38,6 +38,7 @@ BEGIN
 		count(Review.serial_number) as num_reviews,
 		max(Review.date_time) as latest_review
 	from Patient
+	natural join Patient_Address
 	left join Review on Patient.alias = Review.patient_alias
 	where
 		(alias is NULL or Patient.alias = alias) and 
@@ -82,6 +83,34 @@ SET @index = 0;
 
 
   	END LOOP basic_loop;
+
+END @@
+DELIMITER ;
+
+
+
+DROP PROCEDURE IF EXISTS ViewDoctorA;
+DELIMITER @@
+CREATE PROCEDURE ViewDoctorA
+(IN alias VARCHAR(20))
+BEGIN
+
+SELECT first_name, 
+last_name, 
+province, 
+city, 
+street_address, 
+postal_code,
+count(Review.serial_number) as num_reviews,
+avg(Review.star_rating) as avg_star_rating,
+YEAR(CURDATE()) - YEAR(Doctor.licence) as num_years_licensed
+from Doctor
+NATURAL JOIN Work_Address
+LEFT JOIN Review on Review.doctor_alias = Doctor.alias
+where Doctor.alias = alias
+GROUP BY (Doctor.alias);
+
+
 
 END @@
 DELIMITER ;

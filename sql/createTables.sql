@@ -4,31 +4,45 @@ DROP TABLE IF EXISTS Reviews;
 DROP TABLE IF EXISTS Friend_Requests;
 DROP TABLE IF EXISTS Specialization;
 
+CREATE TABLE Work_Address(
+	address_ID INT,
+	street_address VARCHAR(256),
+	province VARCHAR(30),
+	city VARCHAR(100),
+	postal_code CHAR(6), 
+	PRIMARY KEY (address_ID)
+);
+
 CREATE TABLE Doctor(
 	alias VARCHAR(20),
 	first_name VARCHAR(100),
 	last_name VARCHAR(100),
 	gender VARCHAR(20),
-	street_address VARCHAR(256),
+	address_ID INT,
+	licence DATE,
+	PRIMARY KEY (alias),
+	FOREIGN KEY (address_ID) references Work_Address(address_ID)
+);
+
+CREATE TABLE Patient_Address(
+	address_ID INT,
 	province VARCHAR(30),
 	city VARCHAR(50),
-	postal_code CHAR(6),
-	licence DATE,
-	PRIMARY KEY (alias)
-);
+	PRIMARY KEY (address_ID)
+)
 
 CREATE TABLE Patient(
 	alias VARCHAR(20),
 	first_name VARCHAR(100),
 	last_name VARCHAR(100),
-	province VARCHAR(30),
-	city VARCHAR(50),
+	address_ID INT,
 	email VARCHAR(256),
-	PRIMARY KEY (alias)
+	PRIMARY KEY (alias),
+	FOREIGN KEY (address_ID) references Patient_Address(address_ID)
 );
 
 CREATE TABLE Reviews(
-	serial_number VARCHAR(16),
+	serial_number INT,
 	patient_alias VARCHAR(20),
 	doctor_alias VARCHAR(20),
 	star_rating DECIMAL(2,1),
