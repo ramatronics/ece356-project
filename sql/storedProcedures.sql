@@ -47,3 +47,41 @@ BEGIN
 
 END @@
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS CreateDoctor;
+DELIMITER @@
+CREATE PROCEDURE CreateDoctor
+(IN alias VARCHAR(20), IN province VARCHAR(30), IN city VARCHAR(50), IN postal_code CHAR(6),
+IN street_address VARCHAR(256), IN first_name VARCHAR(100), IN last_name VARCHAR(100), IN
+licensed DATE, IN gender VARCHAR(20), IN specializations VARCHAR(1024))
+
+BEGIN
+
+INSERT INTO Doctor VALUES (
+	alias, 
+	first_name, 
+	last_name, 
+	gender, 
+	street_address, 
+	province, 
+	city, 
+	postal_code, 
+	licensed);
+
+SET @index = 0;
+	basic_loop:LOOP
+
+  		SET @index = @index + 1;
+    	SET @SpecPart = SPLIT_STR(specializations, ',', @index);
+
+    	INSERT INTO Specialization VALUES (
+    		alias,
+   	 		@SpecPart
+   		 	)
+    	ITERATE basic_loop;
+
+
+  	END LOOP basic_loop;
+
+END @@
+DELIMITER ;
