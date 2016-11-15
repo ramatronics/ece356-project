@@ -1,4 +1,4 @@
-DROP Table if exists Doctor;
+DROP TABLE if exists Doctor;
 DROP TABLE IF exists Patient;
 DROP TABLE IF EXISTS Reviews;
 DROP TABLE IF EXISTS Friend_Requests;
