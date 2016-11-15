@@ -63,7 +63,7 @@ CREATE TABLE doctor_specialization
      FOREIGN KEY (alias) REFERENCES doctor (alias) ON DELETE CASCADE
   );
 
-CREATE TABLE friend_requests
+CREATE TABLE patient_friends
   (
      alias_from VARCHAR(20),
      alias_to   VARCHAR(20),

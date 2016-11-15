@@ -99,15 +99,15 @@ BEGIN
   SELECT p.alias, p.email
     FROM patient p
       WHERE p.alias in (
-        (SELECT pf.alias_from AS alias
-          FROM patient_friends
+        SELECT pf.alias_from AS alias
+          FROM patient_friends pf
             WHERE pf.alias_to = alias AND
-                  pf.status = 1)
+                  pf.status = 1
         UNION
-        (SELECT pf.alias_to AS alias
-          FROM patient_friends
+        SELECT pf.alias_to AS alias
+          FROM patient_friends pf
             WHERE pf.alias_from = alias AND
-                  pf.status = 1)
+                  pf.status = 1
       );
 END @@
 DELIMITER ;
