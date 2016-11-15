@@ -1,11 +1,11 @@
-use ece356db;
+USE ece356db;
 
-set foreign_key_checks=0;
-drop table if exists Work_Address;
-drop table if exists Doctor;
-drop table if exists Patient_Address;
-drop table if exists Patient;
-drop table if exists Reviews;
-drop table if exists Specialization;
-drop table if exists Friend_Requests;
-set foreign_key_checks=1;
+SET foreign_key_checks=0;
+DROP TABLE IF EXISTS Work_Address;
+DROP TABLE IF EXISTS Doctor;
+DROP TABLE IF EXISTS Patient_Address;
+DROP TABLE IF EXISTS Patient;
+DROP TABLE IF EXISTS Reviews;
+DROP TABLE IF EXISTS Specialization;
+DROP TABLE IF EXISTS Friend_Requests;
+SET foreign_key_checks=1;
