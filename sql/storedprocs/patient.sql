@@ -77,6 +77,14 @@ BEGIN
   /* search for patients who have requested friendship with the given alias but are not yet
   friends with the given alias */
   /* return matching patients as a relation with the attributes alias and email */
+  SELECT pf.alias_from, p.email
+    FROM patient p
+    LEFT JOIN patient_friends pf
+      ON pf.requestor_alias = p.alias
+    WHERE
+      pf.alias_to = alias AND
+      pf.status = 0;
+
 END @@
 DELIMITER ;
 
@@ -88,6 +96,19 @@ CREATE PROCEDURE ViewFriends
 BEGIN
   /* search for patients who are friends of the given alias */
   /* return matching patients as a relation with the attributes alias and email */
+  SELECT p.alias, p.email
+    FROM patient p
+      WHERE p.alias in (
+        (SELECT pf.alias_from AS alias
+          FROM patient_friends
+            WHERE pf.alias_to = alias AND
+                  pf.status = 1)
+        UNION
+        (SELECT pf.alias_to AS alias
+          FROM patient_friends
+            WHERE pf.alias_from = alias AND
+                  pf.status = 1)
+      );
 END @@
 DELIMITER ;
 
@@ -100,5 +121,14 @@ CREATE PROCEDURE AreFriends
    OUT are_friends BOOLEAN)
 BEGIN
   /* returns true in are_friends if alias1 and alias2 are friends, and false otherwise */
+  IF (SELECT status FROM patient_friends pf
+        WHERE
+        (pf.alias_from = alias2 AND pf.alias_to = alias1)
+        OR
+        (pf.alias_from = alias1 AND pf.alias_to = alias2)) =  1 THEN
+    SELECT TRUE INTO are_friends;
+  ELSE
+    SELECT FALSE INTO are_friends;
+  END IF
 END @@
 DELIMITER ;

@@ -16,31 +16,58 @@ CREATE PROCEDURE CreateDoctor
 
 BEGIN
 
-INSERT INTO Doctor VALUES (
-	alias,
-	first_name,
-	last_name,
-	gender,
-	street_address,
-	province,
-	city,
-	postal_code,
-	licensed);
+  SET @addr_exists = (SELECT COUNT(*)
+                         FROM work_address w_a
+                         WHERE
+                          w_a.street_address = street_address AND
+                          w_a.province = province AND
+                          w_a.city = city AND
+                          w_a.postal_code = postal_code
+                        );
+  IF @addr_exists = 0 THEN
+      INSERT INTO work_address(
+        street_address,
+        province,
+        city,
+        postal_code
+      ) VALUES (
+        street_address,
+        province,
+        city,
+        postal_code
+      );
+  END IF;
 
-SET @index = 0;
+  SET @addr_id = SELECT address_id
+                  FROM work_address w_a
+                  WHERE
+                   w_a.street_address = street_address AND
+                   w_a.province = province AND
+                   w_a.city = city AND
+                   w_a.postal_code = postal_code;
+
+  INSERT INTO doctor VALUES (
+  	alias,
+  	first_name,
+  	last_name,
+  	gender,
+    @addr_id
+  	license
+  );
+
+  SET @index = 0;
+
 	basic_loop:LOOP
 
   		SET @index = @index + 1;
     	SET @SpecPart = SPLIT_STR(specializations, ',', @index);
 
-    	INSERT INTO specialization VALUES (
-    		alias,
-   	 		@SpecPart
-   		 	)
+    	INSERT INTO doctor_specialization
+      VALUES (alias,
+   	 		      @SpecPart)
     	ITERATE basic_loop;
 
-
-  	END LOOP basic_loop;
+	END LOOP basic_loop;
 
 END @@
 DELIMITER ;
@@ -76,6 +103,23 @@ BEGIN
   /* retrieve the doctor record for the given alias */
   /* return the doctor info as a relation with the attributes first_name, last_name, province,
   city, street_address, postal_code, num_years_licensed, avg_star_rating, num_reviews */
+  SELECT
+    d.first_name,
+    d.last_name,
+    wa.province,
+    wa.city,
+    wa.street_address,
+    wa.postal_code,
+    YEAR(CURDATE()) - YEAR(d.license) AS num_years_licensed,
+    AVG(r.rating) AS avg_star_rating,
+    COUNT(r.review_id) AS num_reviews
+  FROM doctor d
+    INNER JOIN work_address wa
+      ON wa.address_id = d.address_id
+    LEFT JOIN reviews r
+      ON r.doctor_alias = d.alias
+    WHERE d.alias = alias
+    GROUP BY d.alias;
 END @@
 DELIMITER ;
 
@@ -87,5 +131,9 @@ CREATE PROCEDURE ViewDoctorB
 BEGIN
   /* retrieve the doctor record for the given alias */
   /* return a list of the doctor’s specializations as a relation with the attribute specialization */
+
+  SELECT specialization
+    FROM doctor_specialization ds
+    WHERE ds.alias = alias;
 END @@
 DELIMITER ;

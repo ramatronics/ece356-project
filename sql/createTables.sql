@@ -24,7 +24,7 @@ CREATE TABLE doctor
      last_name  VARCHAR(100),
      gender     VARCHAR(20),
      address_id BIGINT UNSIGNED NOT NULL,
-     licence    DATE,
+     license    DATE,
      PRIMARY KEY (alias),
      FOREIGN KEY (address_id) REFERENCES work_address(address_id)
   );
@@ -55,9 +55,9 @@ CREATE TABLE reviews
      FOREIGN KEY (patient_alias) REFERENCES patient (alias) ON DELETE CASCADE
   );
 
-CREATE TABLE specialization
+CREATE TABLE doctor_specialization
   (
-     alias          VARCHAR(20),
+     alias      VARCHAR(20),
      specialization VARCHAR(100),
      PRIMARY KEY (alias, specialization),
      FOREIGN KEY (alias) REFERENCES doctor (alias) ON DELETE CASCADE
