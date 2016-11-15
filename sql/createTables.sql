@@ -1,15 +1,9 @@
-DROP TABLE if exists Doctor;
-DROP TABLE IF exists Patient;
-DROP TABLE IF EXISTS Reviews;
-DROP TABLE IF EXISTS Friend_Requests;
-DROP TABLE IF EXISTS Specialization;
-
 CREATE TABLE Work_Address(
-	address_ID INT,
+	address_ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
 	street_address VARCHAR(256),
 	province VARCHAR(30),
 	city VARCHAR(100),
-	postal_code CHAR(6), 
+	postal_code CHAR(6),
 	PRIMARY KEY (address_ID)
 );
 
@@ -18,31 +12,31 @@ CREATE TABLE Doctor(
 	first_name VARCHAR(100),
 	last_name VARCHAR(100),
 	gender VARCHAR(20),
-	address_ID INT,
+	address_ID BIGINT UNSIGNED NOT NULL,
 	licence DATE,
 	PRIMARY KEY (alias),
 	FOREIGN KEY (address_ID) references Work_Address(address_ID)
 );
 
 CREATE TABLE Patient_Address(
-	address_ID INT,
+	address_ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
 	province VARCHAR(30),
 	city VARCHAR(50),
 	PRIMARY KEY (address_ID)
-)
+);
 
 CREATE TABLE Patient(
 	alias VARCHAR(20),
 	first_name VARCHAR(100),
 	last_name VARCHAR(100),
-	address_ID INT,
+	address_ID BIGINT UNSIGNED NOT NULL,
 	email VARCHAR(256),
 	PRIMARY KEY (alias),
 	FOREIGN KEY (address_ID) references Patient_Address(address_ID)
 );
 
 CREATE TABLE Reviews(
-	serial_number INT,
+	serial_number BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
 	patient_alias VARCHAR(20),
 	doctor_alias VARCHAR(20),
 	star_rating DECIMAL(2,1),
@@ -59,7 +53,7 @@ CREATE TABLE  Specialization(
 	PRIMARY KEY (alias, specialization),
 	FOREIGN KEY (alias) references Doctor (alias) ON DELETE CASCADE
 );
-	
+
 CREATE TABLE Friend_Requests(
 	alias_from VARCHAR(20),
 	alias_to VARCHAR(20),
@@ -68,4 +62,3 @@ CREATE TABLE Friend_Requests(
 	FOREIGN KEY (alias_from) references Patient (alias) ON DELETE CASCADE,
 	FOREIGN KEY (alias_to) references Patient (alias) ON DELETE CASCADE
 );
-
