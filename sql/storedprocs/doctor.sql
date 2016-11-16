@@ -17,12 +17,12 @@ CREATE PROCEDURE CreateDoctor
 BEGIN
 
   SET @addr_exists = (SELECT COUNT(*)
-                         FROM work_address w_a
+                         FROM work_address wa
                          WHERE
-                          w_a.street_address = street_address AND
-                          w_a.province = province AND
-                          w_a.city = city AND
-                          w_a.postal_code = postal_code
+                          wa.street_address = street_address AND
+                          wa.province = province AND
+                          wa.city = city AND
+                          wa.postal_code = postal_code
                         );
   IF @addr_exists = 0 THEN
       INSERT INTO work_address(
@@ -38,20 +38,20 @@ BEGIN
       );
   END IF;
 
-  SET @addr_id = SELECT address_id
-                  FROM work_address w_a
+  SET @addr_id = (SELECT address_id
+                  FROM work_address wa
                   WHERE
-                   w_a.street_address = street_address AND
-                   w_a.province = province AND
-                   w_a.city = city AND
-                   w_a.postal_code = postal_code;
+                   wa.street_address = street_address AND
+                   wa.province = province AND
+                   wa.city = city AND
+                   wa.postal_code = postal_code);
 
   INSERT INTO doctor VALUES (
   	alias,
   	first_name,
   	last_name,
   	gender,
-    @addr_id
+    @addr_id,
   	license
   );
 

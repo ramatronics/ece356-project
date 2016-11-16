@@ -19,7 +19,7 @@ CREATE TABLE patient_address
 
 CREATE TABLE doctor
   (
-     alias      VARCHAR(20),
+     alias      VARCHAR(20) NOT NULL UNIQUE,
      first_name VARCHAR(100),
      last_name  VARCHAR(100),
      gender     VARCHAR(20),
@@ -31,7 +31,7 @@ CREATE TABLE doctor
 
 CREATE TABLE patient
   (
-     alias      VARCHAR(20),
+     alias      VARCHAR(20) NOT NULL UNIQUE,
      first_name VARCHAR(100),
      last_name  VARCHAR(100),
      address_id BIGINT UNSIGNED NOT NULL,
@@ -49,6 +49,7 @@ CREATE TABLE reviews
      comments      VARCHAR(1024),
      created       DATETIME,
      PRIMARY KEY (review_id),
+	   CHECK(rating >= 0 AND rating <= 5),
      INDEX `idx_rev_doctor` (doctor_alias ASC),
      INDEX `idx_rev_patient` (patient_alias ASC),
      FOREIGN KEY (doctor_alias) REFERENCES doctor (alias) ON DELETE CASCADE,
@@ -57,7 +58,7 @@ CREATE TABLE reviews
 
 CREATE TABLE doctor_specialization
   (
-     alias      VARCHAR(20),
+     alias VARCHAR(20) NOT NULL UNIQUE,
      specialization VARCHAR(100),
      PRIMARY KEY (alias, specialization),
      FOREIGN KEY (alias) REFERENCES doctor (alias) ON DELETE CASCADE
@@ -65,10 +66,12 @@ CREATE TABLE doctor_specialization
 
 CREATE TABLE patient_friends
   (
-     alias_from VARCHAR(20),
-     alias_to   VARCHAR(20),
+     alias_from VARCHAR(20) NOT NULL UNIQUE,
+     alias_to   VARCHAR(20) NOT NULL UNIQUE,
      status     BIT,
      PRIMARY KEY (alias_from, alias_to),
      FOREIGN KEY (alias_from) REFERENCES patient (alias) ON DELETE CASCADE,
      FOREIGN KEY (alias_to) REFERENCES patient (alias) ON DELETE CASCADE
   );
+
+CREATE UNIQUE INDEX idx_uq_patientaddress ON patient_address(province, city);
