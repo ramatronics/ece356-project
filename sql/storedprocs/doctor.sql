@@ -1,5 +1,3 @@
---Doctor table related procedures
---6.8
 DROP PROCEDURE IF EXISTS CreateDoctor;
 DELIMITER @@
 CREATE PROCEDURE CreateDoctor
@@ -60,19 +58,19 @@ BEGIN
 	basic_loop:LOOP
 
   		SET @index = @index + 1;
-    	SET @SpecPart = SPLIT_STR(specializations, ',', @index);
+      SET @spec = SPLIT_STR(specializations, ",", @index);
 
-    	INSERT INTO doctor_specialization
-      VALUES (alias,
-   	 		      @SpecPart)
-    	ITERATE basic_loop;
+      IF @spec != '' THEN
+        insert into doctor_specialization(alias, specialization) values (alias, @spec);
+        ITERATE basic_loop;
+      END IF;
 
+    leave basic_loop;
 	END LOOP basic_loop;
 
 END @@
 DELIMITER ;
 
---6.9
 DROP PROCEDURE IF EXISTS DoctorSearch;
 DELIMITER @@
 CREATE PROCEDURE DoctorSearch
@@ -94,7 +92,6 @@ BEGIN
 END @@
 DELIMITER ;
 
---6.10
 DROP PROCEDURE IF EXISTS ViewDoctorA;
 DELIMITER @@
 CREATE PROCEDURE ViewDoctorA
@@ -123,7 +120,6 @@ BEGIN
 END @@
 DELIMITER ;
 
---6.11
 DROP PROCEDURE IF EXISTS ViewDoctorB;
 DELIMITER @@
 CREATE PROCEDURE ViewDoctorB
