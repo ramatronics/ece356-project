@@ -1,5 +1,3 @@
---Patient table related procedures
---6.2
 DROP PROCEDURE IF EXISTS CreatePatient;
 DELIMITER @@
 CREATE PROCEDURE CreatePatient
@@ -11,41 +9,40 @@ CREATE PROCEDURE CreatePatient
   IN email VARCHAR(256))
 BEGIN
 
-  IF (SELECT COUNT(*) 
-    FROM patient_address p
-    WHERE p.province = province AND p.city = city) = 0 THEN
+  SET @exists = (SELECT COUNT(*) FROM patient_address p
+    WHERE p.province = province AND p.city = city);
 
-  INSERT INTO patient_address(
-    province,
-    city
-    )
-  VALUES (
-    province,
-    city);
+  IF @exists = 0 THEN
+    INSERT INTO patient_address(
+      province,
+      city
+      )
+    VALUES (
+      province,
+      city);
   END IF;
 
-  SET @address_id = SELECT p.address_id 
-  FROM patient_address p
-  WHERE p.province = province AND p.city = city;
+  SET @address_id = (SELECT p.address_id
+    FROM patient_address p
+    WHERE p.province = province AND p.city = city);
 
-INSERT INTO patient(
+  INSERT INTO patient(
     alias,
     first_name,
     last_name,
-    address_id
-    email) 
+    address_id,
+    email)
   VALUES (
     alias,
     first_name,
     last_name,
     @address_id,
     email);
-  
+
 END @@
 DELIMITER ;
 
---6.3
-DROP PROCEDURE IF EXISTS PatientSearch
+DROP PROCEDURE IF EXISTS PatientSearch;
 DELIMITER @@
 CREATE PROCEDURE PatientSearch
  (IN alias VARCHAR(20),
@@ -54,23 +51,22 @@ CREATE PROCEDURE PatientSearch
 BEGIN
 
 	SELECT
-		alias,
-		province,
-		city,
-		count(Review.serial_number) AS num_reviews,
-		max(Review.date_time) AS latest_review
-	FROM patient
-	LEFT JOIN reviews ON patient.alias = reviews.patient_alias
+		p.alias,
+		p.province,
+		p.city,
+		count(r.review_id) AS num_reviews,
+		max(r.created) AS latest_review
+	FROM patient p
+	LEFT JOIN reviews r ON p.alias = r.patient_alias
 	WHERE
-		(alias IS NULL OR patient.alias = alias) AND
-		(province IS NULL OR patient.province = province) AND
-		(city IS NULL OR patient.city = city)
-	GROUP BY patient.alias;
+		(alias IS NULL OR p.alias = alias) AND
+		(province IS NULL OR p.province = province) AND
+		(city IS NULL OR p.city = city)
+	GROUP BY p.alias;
 
 END @@
 DELIMITER ;
 
---6.4
 DROP PROCEDURE IF EXISTS AddFriend;
 DELIMITER @@
 CREATE PROCEDURE AddFriend
@@ -78,29 +74,28 @@ CREATE PROCEDURE AddFriend
    IN requestee_alias VARCHAR(20))
 BEGIN
 
-  IF (SELECT COUNT(*) 
-    FROM patient_friends 
-    WHERE alias_from = requestee_alias 
+  IF (SELECT COUNT(*)
+    FROM patient_friends
+    WHERE alias_from = requestee_alias
     AND alias_to = requestor_alias) = 1 THEN
-  UPDATE patient_friends 
-  SET status = 1 
-  WHERE alias_from = requestee_alias 
+  UPDATE patient_friends
+  SET status = 1
+  WHERE alias_from = requestee_alias
     AND alias_to = requestor_alias;
 
 ELSE INSERT INTO patient_friends (
-  alias_from, 
-  alias_to, 
-  status) 
+  alias_from,
+  alias_to,
+  status)
 VALUES (
-  requestor_alias, 
-  requestee_alias, 
+  requestor_alias,
+  requestee_alias,
   0);
 END IF;
 
 END @@
 DELIMITER ;
 
---6.5
 DROP PROCEDURE IF EXISTS ViewFriendRequests;
 DELIMITER @@
 CREATE PROCEDURE ViewFriendRequests
@@ -120,7 +115,6 @@ BEGIN
 END @@
 DELIMITER ;
 
---6.6
 DROP PROCEDURE IF EXISTS ViewFriends;
 DELIMITER @@
 CREATE PROCEDURE ViewFriends
@@ -144,7 +138,6 @@ BEGIN
 END @@
 DELIMITER ;
 
---6.7
 DROP PROCEDURE IF EXISTS AreFriends;
 DELIMITER @@
 CREATE PROCEDURE AreFriends
@@ -161,6 +154,6 @@ BEGIN
     SELECT TRUE INTO are_friends;
   ELSE
     SELECT FALSE INTO are_friends;
-  END IF
+  END IF;
 END @@
 DELIMITER ;
