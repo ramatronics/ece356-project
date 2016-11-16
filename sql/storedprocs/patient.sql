@@ -11,24 +11,24 @@ CREATE PROCEDURE CreatePatient
   IN email VARCHAR(256))
 BEGIN
 
-  IF SELECT COUNT(*) 
+  IF (SELECT COUNT(*) 
     FROM patient_address p
     WHERE p.province = province AND p.city = city) = 0 THEN
 
   INSERT INTO patient_address(
-    province
+    province,
     city
     )
   VALUES (
-    province
+    province,
     city);
   END IF;
 
-  SET @address_id = SELECT address_id 
+  SET @address_id = SELECT p.address_id 
   FROM patient_address p
   WHERE p.province = province AND p.city = city;
 
-  INSERT INTO patient(
+INSERT INTO patient(
     alias,
     first_name,
     last_name,
@@ -38,9 +38,9 @@ BEGIN
     alias,
     first_name,
     last_name,
-    @address_id
+    @address_id,
     email);
-
+  
 END @@
 DELIMITER ;
 
