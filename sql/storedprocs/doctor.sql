@@ -79,7 +79,7 @@ BEGIN
   		SET @index = @index + 1;
       SET @specialization = SPLIT_STR(specializations, ",", @index);
 
-      IF @spec != '' THEN
+      IF @specialization != '' THEN
         INSERT INTO doctor_specialization(alias, specialization) values (alias, @specialization);
         ITERATE specializationParseLoop;
       END IF;
