@@ -1,5 +1,3 @@
---6.12
-CREATE REVIEW
 DROP PROCEDURE IF EXISTS CreateReview;
 DELIMITER @@
 CREATE PROCEDURE CreateReview
@@ -7,7 +5,7 @@ CREATE PROCEDURE CreateReview
    IN doctor_alias VARCHAR(20),
    IN star_rating DECIMAL(2,1),
    IN comments VARCHAR(1024))
-BEGIN
+c_r:BEGIN
   /* create a review using the given data */
   /* no return value */
 
@@ -15,16 +13,16 @@ BEGIN
   SET @doctor_exist = (SELECT count(*) from Doctor where alias = doctor_alias);
 
   if (@patient_exists = 0 or @doctor_exits = 0 ) then
-    leave CreateReview;
+    leave c_r;
   end if;
 
   set @valid_rate = MOD(star_rating, 0.5);
 
   if(@valid_rating != 0 or star_rating > 5.0) then
-    leave CreateReview;
-  end if
+    leave c_r;
+  END IF;
 
-  insert into Review(
+  INSERT INTO reviews(
     patient_alias,
     doctor_alias,
     created,
@@ -40,7 +38,6 @@ BEGIN
 END @@
 DELIMITER ;
 
---6.13
 DROP PROCEDURE IF EXISTS ViewReviews;
 DELIMITER @@
 CREATE PROCEDURE ViewReviews

@@ -58,20 +58,21 @@ CREATE TABLE reviews
 
 CREATE TABLE doctor_specialization
   (
-     alias VARCHAR(20) NOT NULL UNIQUE,
-     specialization VARCHAR(100),
+     alias VARCHAR(20) NOT NULL,
+     specialization VARCHAR(100) NOT NULL,
      PRIMARY KEY (alias, specialization),
      FOREIGN KEY (alias) REFERENCES doctor (alias) ON DELETE CASCADE
   );
 
 CREATE TABLE patient_friends
   (
-     alias_from VARCHAR(20) NOT NULL UNIQUE,
-     alias_to   VARCHAR(20) NOT NULL UNIQUE,
-     status     BIT,
+     alias_from VARCHAR(20) NOT NULL,
+     alias_to   VARCHAR(20) NOT NULL,
+     status     BIT NOT NULL DEFAULT 0,
      PRIMARY KEY (alias_from, alias_to),
      FOREIGN KEY (alias_from) REFERENCES patient (alias) ON DELETE CASCADE,
      FOREIGN KEY (alias_to) REFERENCES patient (alias) ON DELETE CASCADE
   );
 
 CREATE UNIQUE INDEX idx_uq_patientaddress ON patient_address(province, city);
+CREATE UNIQUE INDEX idx_uq_patientfriends ON patient_friends(alias_from, alias_to);
