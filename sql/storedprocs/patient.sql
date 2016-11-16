@@ -107,7 +107,7 @@ BEGIN
   SELECT pf.alias_from, p.email
     FROM patient p
     LEFT JOIN patient_friends pf
-      ON pf.requestor_alias = p.alias
+      ON pf.alias_from = p.alias
     WHERE
       pf.alias_to = alias AND
       pf.status = 0;
