@@ -45,19 +45,21 @@ CREATE PROCEDURE PatientSearch
   IN city VARCHAR(50))
 BEGIN
 
-	SELECT
-		p.alias,
-		p.province,
-		p.city,
-		count(r.review_id) AS num_reviews,
-		max(r.created) AS latest_review
-	  FROM patient p
-	    LEFT JOIN reviews r ON p.alias = r.patient_alias
-	  WHERE
-  		(alias IS NULL OR p.alias = alias) AND
-  		(province IS NULL OR p.province = province) AND
-  		(city IS NULL OR p.city = city)
-	  GROUP BY p.alias;
+SELECT
+    p.alias,
+    a.province,
+    a.city,
+    count(r.review_id) AS num_reviews,
+    max(r.created) AS latest_review
+    FROM patient p
+      LEFT JOIN reviews r ON p.alias = r.patient_alias
+      LEFT JOIN patient_address a ON p.address_id = a.address_id
+    WHERE
+      (alias IS NULL OR p.alias = alias) AND
+      (province IS NULL OR a.province = province) AND
+      (city IS NULL OR a.city = city)
+    GROUP BY p.alias;
+
 
 END @@
 DELIMITER ;

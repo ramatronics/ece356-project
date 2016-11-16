@@ -32,5 +32,5 @@ CALL CreateDoctor('doctor5', 'ON', 'Vaughan', 'M1P5C5', '321 Lester', 'Andrew', 
 Call ViewReviews('doctor5','1000-01-01 00:00:00','9999-12-31 23:59:59');
 
 Call ViewReviews('doctor1','1000-01-01 00:00:00','1100-12-31 23:59:59');
-Call ViewReviews('doctor6','1000-01-01 00:00:00','9999-12-31 23:59:59');
+Call ViewReviews('doctor6','2100-01-01 00:00:00','9999-12-31 23:59:59');
 
