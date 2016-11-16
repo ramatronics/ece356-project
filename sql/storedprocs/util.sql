@@ -100,27 +100,24 @@ BEGIN
     /*
      * Beneficial for PatientSearch stored procedure
      */
-    CREATE INDEX idx_patientaddress_province ON patient_address(province) USING HASH;
-    CREATE INDEX idx_patientaddress_city ON patient_address(city) USING HASH;
+    CREATE INDEX idx_patientaddress_province ON patient_address(province);
+    CREATE INDEX idx_patientaddress_city ON patient_address(city);
 
     /*
      * Beneficial for AreFriends/ViewFriends/ViewFriendRequests stored procedure
      */
-    CREATE INDEX idx_patientfriends_from ON patient_friends(alias_from) USING HASH;
-    CREATE INDEX idx_patientfriends_to ON patient_friends(alias_to) USING HASH;
-    CREATE UNIQUE INDEX idx_uq_patientfriends ON patient_friends(alias_from, alias_to) USING HASH;
+    CREATE UNIQUE INDEX idx_uq_patientfriends ON patient_friends(alias_from, alias_to);
 
     /*
      * Beneficial for DoctorSearch stored procedure
      */
     CREATE INDEX idx_doctor_first_name ON doctor(first_name) USING BTREE;
     CREATE INDEX idx_doctor_last_name ON doctor(last_name) USING BTREE;
-    CREATE INDEX idx_doctor_gender ON doctor(gender) USING BTREE;
     CREATE INDEX idx_doctor_license ON doctor(license) USING BTREE;
 
-    CREATE INDEX idx_doctor_address_city ON work_address(city) USING HASH;
-    CREATE INDEX idx_doctor_address_province ON work_address(province) USING HASH;
-    CREATE INDEX idx_doctor_address_postal_code ON work_address(postal_code) USING HASH;
+    CREATE INDEX idx_doctor_address_city ON work_address(city);
+    CREATE INDEX idx_doctor_address_province ON work_address(province);
+    CREATE INDEX idx_doctor_address_postal_code ON work_address(postal_code);
 
     /*
      * Beneficial for ViewReviews stored procedure

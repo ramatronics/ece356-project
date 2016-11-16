@@ -8,7 +8,12 @@ CREATE PROCEDURE CreatePatient
   IN last_name VARCHAR(100),
   IN email VARCHAR(256))
 BEGIN
+  SET @aliasExists = (SELECT COUNT(*) FROM patient p WHERE p.alias = alias);
 
+  IF @aliasExists > 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A patient with this alias already exists';
+  END IF;
+  
   SET @exists = (SELECT COUNT(*) FROM patient_address p
     WHERE p.province = province AND p.city = city);
 
