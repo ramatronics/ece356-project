@@ -1,6 +1,6 @@
 DROP PROCEDURE IF EXISTS ResetDB;
 DELIMITER @@
-CREATE PROCEDURE ResetDB ()
+CREATE PROCEDURE ResetDB()
 BEGIN
     /*
      * Nuke the database
