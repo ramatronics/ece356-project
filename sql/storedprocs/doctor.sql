@@ -36,6 +36,11 @@ CREATE PROCEDURE CreateDoctor
   IN specializations VARCHAR(1024))
 
 BEGIN
+  SET @aliasExists = (SELECT COUNT(*) FROM doctor d WHERE d.alias = alias);
+
+  IF @aliasExists > 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A doctor with this alias already exists';
+  END IF;
 
   SET @addr_exists = (SELECT COUNT(*)
                          FROM work_address wa
