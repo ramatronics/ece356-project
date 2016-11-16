@@ -11,21 +11,34 @@ CREATE PROCEDURE CreatePatient
   IN email VARCHAR(256))
 BEGIN
 
+  IF (SELECT EXIST (SELECT address_id 
+    FROM patient_address p
+    WHERE p.province = province AND p.city = city) = 0) THEN
+  INSERT INTO patient_address(
+    province
+    city
+    )
+  VALUES (
+    province
+    city);
+  END IF;
+
+  SET @address_id = SELECT address_id 
+  FROM patient_address p
+  WHERE p.province = province AND p.city = city;
+
   INSERT INTO patient(
     alias,
-    province,
-    city,
     first_name,
     last_name,
-    email
-  ) VALUES (
+    address_id
+    email) 
+  VALUES (
     alias,
-    province,
-    city,
     first_name,
     last_name,
-    email
-  );
+    @address_id
+    email);
 
 END @@
 DELIMITER ;
@@ -63,8 +76,27 @@ CREATE PROCEDURE AddFriend
   (IN requestor_alias VARCHAR(20),
    IN requestee_alias VARCHAR(20))
 BEGIN
-  /* add friendship request from requestor_alias to requestee_alias */
-  /* no return value */
+
+  IF SELECT EXISTS(
+    SELECT status 
+    FROM patient_friends 
+    WHERE alias_from = requestee_alias 
+    AND alias_to = requestor_alias) = 1 THEN
+  UPDATE patient_friends 
+  SET status = 1 
+  WHERE alias_from = requestee_alias 
+    AND alias_to = requestor_alias;
+
+ELSE INSERT INTO patient_friends (
+  alias_from, 
+  alias_to, 
+  status) 
+VALUES (
+  requestor_alias, 
+  requestee_alias, 
+  0);
+END IF;
+
 END @@
 DELIMITER ;
 
