@@ -11,9 +11,10 @@ CREATE PROCEDURE CreatePatient
   IN email VARCHAR(256))
 BEGIN
 
-  IF (SELECT EXIST (SELECT address_id 
+  IF SELECT COUNT(*) 
     FROM patient_address p
-    WHERE p.province = province AND p.city = city) = 0) THEN
+    WHERE p.province = province AND p.city = city) = 0 THEN
+
   INSERT INTO patient_address(
     province
     city
@@ -77,8 +78,7 @@ CREATE PROCEDURE AddFriend
    IN requestee_alias VARCHAR(20))
 BEGIN
 
-  IF SELECT EXISTS(
-    SELECT status 
+  IF (SELECT COUNT(*) 
     FROM patient_friends 
     WHERE alias_from = requestee_alias 
     AND alias_to = requestor_alias) = 1 THEN
