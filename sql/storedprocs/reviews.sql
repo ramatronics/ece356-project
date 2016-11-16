@@ -9,16 +9,16 @@ c_r:BEGIN
   /* create a review using the given data */
   /* no return value */
 
-  SET @patient_exist = (SELECT count(*) from Patient where alias = patient_alias);
-  SET @doctor_exist = (SELECT count(*) from Doctor where alias = doctor_alias);
+  SET @patient_exist = (SELECT count(*) FROM patient WHERE alias = patient_alias);
+  SET @doctor_exist = (SELECT count(*) FROM doctor WHERE alias = doctor_alias);
 
-  if (@patient_exists = 0 or @doctor_exits = 0 ) then
+  if (@patient_exists = 0 OR @doctor_exits = 0 ) then
     leave c_r;
   end if;
 
-  set @valid_rate = MOD(star_rating, 0.5);
+  SET @valid_rate = MOD(star_rating, 0.5);
 
-  if(@valid_rating != 0 or star_rating > 5.0) then
+  IF(@valid_rate <> 0 or star_rating > 5.0) THEN
     leave c_r;
   END IF;
 
@@ -28,7 +28,7 @@ c_r:BEGIN
     created,
     rating,
     comments
-  ) values (
+  ) VALUES (
     patient_alias,
     doctor_alias,
     NOW(),
@@ -47,14 +47,14 @@ CREATE PROCEDURE ViewReviews
 BEGIN
 
   SELECT
-    rating,
-    comments,
-    created
+    r.rating,
+    r.comments,
+    r.created
   FROM reviews r
-  WHERE
-    r.doctor_alias = doctor_alias AND
-    r.created >= from_datetime AND
-    r.created <= to_datetime;
+    WHERE
+      r.doctor_alias = doctor_alias AND
+      r.created >= from_datetime AND
+      r.created <= to_datetime;
 
 END @@
 DELIMITER ;

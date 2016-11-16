@@ -120,8 +120,8 @@ BEGIN
       (gender IS NULL OR d.gender = gender) AND
       (specialization IS NULL OR ds.specialization = specialization) AND
       (name_keyword IS NULL OR
-        ((d.first_name LIKE CONCAT('%', name_keyword, '%')) OR
-          (d.last_name LIKE CONCAT('%', name_keyword, '%')))
+        ((UPPER(d.first_name) LIKE CONCAT('%', UPPER(name_keyword), '%')) OR
+          (UPPER(d.last_name) LIKE CONCAT('%', UPPER(name_keyword), '%')))
       ) AND
       (num_years_licensed IS NULL OR (YEAR(CURDATE()) - YEAR(d.license)) >  num_years_licensed) AND
       (reviewed_by_friend IS FALSE OR EXISTS(
