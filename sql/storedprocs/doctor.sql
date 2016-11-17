@@ -109,6 +109,7 @@ CREATE PROCEDURE DoctorSearch
    IN reviewed_by_friend BOOLEAN,
    IN caller_alias VARCHAR(20))
 BEGIN
+
   SELECT d.alias, d.first_name, d.last_name, d.gender,
          wa.city, wa.province, wa.postal_code,
          avg(r.rating) AS avg_review_rating,
@@ -129,15 +130,20 @@ BEGIN
           (UPPER(d.last_name) LIKE CONCAT('%', UPPER(name_keyword), '%')))
       ) AND
       (num_years_licensed IS NULL OR (YEAR(CURDATE()) - YEAR(d.license)) >  num_years_licensed) AND
-      (reviewed_by_friend IS FALSE OR EXISTS(
-        SELECT 1
-          FROM patient_friends pf
-            WHERE
-              ((pf.alias_from = caller_alias AND pf.alias_to IN (SELECT patient_alias FROM reviews))
-                OR
-                (pf.alias_to = caller_alias AND pf.alias_from IN (SELECT patient_alias FROM reviews))
-              ) AND pf.status = 1)
-      )
+      (reviewed_by_friend = 0 OR
+        (
+          SELECT 1 FROM
+          (SELECT pf.alias_from AS alias
+            FROM patient_friends pf
+              WHERE pf.alias_to = caller_alias AND
+                    pf.status = 1
+          UNION
+          SELECT pf.alias_to AS alias
+            FROM patient_friends pf
+              WHERE pf.alias_from = caller_alias AND
+                    pf.status = 1) k
+          WHERE k.alias = r.patient_alias
+        ) > 0 )
       GROUP BY d.alias
       HAVING (avg_star_rating_at_least IS NULL OR avg(r.rating) >= avg_star_rating_at_least);
 
