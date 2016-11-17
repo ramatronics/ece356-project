@@ -74,11 +74,3 @@ SELECT COUNT(*) FROM doctor_specialization d WHERE d.alias = 'doctor1';
 
 
 CALL CreateDoctor('doctor1', 'ON', 'Toronto', 'M1P5C5', '321 Lester', 'Andrew', 'Chung', NOW(), 'male', 'pediatrician,nutritionist,surgeon');
-
-
-
-
-
-
-
-
