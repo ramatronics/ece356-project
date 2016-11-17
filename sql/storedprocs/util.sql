@@ -104,11 +104,6 @@ BEGIN
     CREATE INDEX idx_patientaddress_city ON patient_address(city);
 
     /*
-     * Beneficial for AreFriends/ViewFriends/ViewFriendRequests stored procedure
-     */
-    CREATE UNIQUE INDEX idx_uq_patientfriends ON patient_friends(alias_from, alias_to);
-
-    /*
      * Beneficial for DoctorSearch stored procedure
      */
     CREATE INDEX idx_doctor_first_name ON doctor(first_name) USING BTREE;
