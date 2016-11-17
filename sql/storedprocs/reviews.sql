@@ -13,12 +13,14 @@ c_r:BEGIN
   SET @doctor_exist = (SELECT count(*) FROM doctor WHERE alias = doctor_alias);
 
   if (@patient_exists = 0 OR @doctor_exits = 0 ) then
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid patient or doctor alias provided';
     leave c_r;
   end if;
 
   SET @valid_rate = MOD(star_rating, 0.5);
 
   IF(@valid_rate <> 0 or star_rating > 5.0) THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid rating provided';
     leave c_r;
   END IF;
 
