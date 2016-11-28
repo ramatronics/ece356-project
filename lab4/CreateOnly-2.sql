@@ -570,8 +570,8 @@ CREATE TABLE `TeamsHalf` (
     PRIMARY KEY ( `yearID`, `teamID`, `lgID`, `Half` ),
     FOREIGN KEY (`teamID`) references Teams(`teamID`),
     FOREIGN KEY(`lgID`) references Teams(`lgID`),
-    FOREIGN KEY(`yearID`) references `Teams(`yearID`),
-    FOREIGN KEY(`yearID`) references `Teams(`yearID`)
+    FOREIGN KEY(`yearID`) references Teams(`yearID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
