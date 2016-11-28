@@ -4,7 +4,33 @@
 
 SET NAMES 'UTF8';
 
+
+DROP TABLE IF EXISTS `Appearances`;
+DROP TABLE IF EXISTS `AllstarFull`;
+DROP TABLE IF EXISTS `AwardsManagers`;
+DROP TABLE IF EXISTS `AwardsPlayers`;
+DROP TABLE IF EXISTS `AwardsShareManagers`;
+DROP TABLE IF EXISTS `AwardsSharePlayers`;
+DROP TABLE IF EXISTS `Batting`;
+DROP TABLE IF EXISTS `BattingPost`;
+DROP TABLE IF EXISTS `CollegePlaying`;
+DROP TABLE IF EXISTS `Fielding`;
+DROP TABLE IF EXISTS `FieldingOF`;
+DROP TABLE IF EXISTS `FieldingPost`;
+DROP TABLE IF EXISTS `Managers`;
+DROP TABLE IF EXISTS `ManagersHalf`;
+DROP TABLE IF EXISTS `Pitching`;
+DROP TABLE IF EXISTS `HallOfFame`;
+DROP TABLE IF EXISTS `PitchingPost`;
+DROP TABLE IF EXISTS `Salaries`;
+DROP TABLE IF EXISTS `SeriesPost`;
+DROP TABLE IF EXISTS `TeamsFranchises`;
+DROP TABLE IF EXISTS `TeamsHalf`;
 DROP TABLE IF EXISTS `Master`;
+DROP TABLE IF EXISTS `Teams`;
+DROP TABLE IF EXISTS `Schools`;
+
+
 
 CREATE TABLE `Master` (
     `playerID` VARCHAR(10) PRIMARY KEY,
@@ -32,8 +58,6 @@ CREATE TABLE `Master` (
     `retroID` VARCHAR(9),
     `bbrefID` VARCHAR(9)
 ) CHARACTER SET 'UTF8';
-
-DROP TABLE IF EXISTS `Teams`;
 
 CREATE TABLE `Teams` (
     `yearID` INTEGER,
@@ -92,7 +116,7 @@ CREATE TABLE `Teams` (
     KEY(franchID)
 ) CHARACTER SET 'UTF8';
 
-DROP TABLE IF EXISTS `Schools`;
+
 
 CREATE TABLE `Schools` (
     `schoolID` VARCHAR(15) PRIMARY KEY,
@@ -104,7 +128,7 @@ CREATE TABLE `Schools` (
 
 
 
-DROP TABLE IF EXISTS `AllstarFull`;
+
 
 CREATE TABLE `AllstarFull` (
     `playerID` VARCHAR(9),
@@ -116,13 +140,13 @@ CREATE TABLE `AllstarFull` (
     `GP` INTEGER,
     `startingPos` INTEGER,
     PRIMARY KEY ( `playerID`, `yearID`, `gameNum` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY (`teamID`) references Teams(`teamID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY (`teamID`) references Teams(`teamID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
-DROP TABLE IF EXISTS `Appearances`;
+
 
 CREATE TABLE `Appearances` (
     `yearID` INTEGER,
@@ -147,14 +171,14 @@ CREATE TABLE `Appearances` (
     `G_ph` INTEGER,
     `G_pr` INTEGER,
     PRIMARY KEY ( `yearID`, `teamID`, `playerID` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY (`teamID`) references Teams(`teamID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
-	
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY (`teamID`) references Teams(`teamID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    
 ) CHARACTER SET 'UTF8';
 
 
-DROP TABLE IF EXISTS `AwardsManagers`;
+
 
 CREATE TABLE `AwardsManagers` (
     `playerID` VARCHAR(10),
@@ -164,12 +188,12 @@ CREATE TABLE `AwardsManagers` (
     `tie` VARCHAR(1),
     `notes` VARCHAR(100),
     PRIMARY KEY ( `yearID`, `awardID`, `lgID`, `playerID` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY (`lgID`) references Teams(`lgID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY(`lgID`) references Teams(`lgID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
-DROP TABLE IF EXISTS `AwardsPlayers`;
+
 
 CREATE TABLE `AwardsPlayers` (
     `playerID` VARCHAR(9),
@@ -179,13 +203,13 @@ CREATE TABLE `AwardsPlayers` (
     `tie` VARCHAR(1),
     `notes` VARCHAR(100),
     PRIMARY KEY ( `yearID`, `awardID`, `lgID`, `playerID` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY(`lgID`) references Teams(`lgID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY(`lgID`) references Teams(`lgID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
-DROP TABLE IF EXISTS `AwardsShareManagers`;
+
 
 CREATE TABLE `AwardsShareManagers` (
     `awardID` VARCHAR(25),
@@ -196,13 +220,12 @@ CREATE TABLE `AwardsShareManagers` (
     `pointsMax` INTEGER,
     `votesFirst` INTEGER,
     PRIMARY KEY ( `awardID`, `yearID`, `lgID`, `playerID` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY(`lgID`) references Teams(`lgID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY(`lgID`) references Teams(`lgID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
-DROP TABLE IF EXISTS `AwardsSharePlayers`;
 
 CREATE TABLE `AwardsSharePlayers` (
     `awardID` VARCHAR(25),
@@ -213,13 +236,13 @@ CREATE TABLE `AwardsSharePlayers` (
     `pointsMax` INTEGER,
     `votesFirst` DOUBLE,
     PRIMARY KEY ( `awardID`, `yearID`, `lgID`, `playerID` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY(`lgID`) references Teams(`lgID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY(`lgID`) references Teams(`lgID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
-DROP TABLE IF EXISTS `Batting`;
+
 
 CREATE TABLE `Batting` (
     `playerID` VARCHAR(9),
@@ -247,11 +270,11 @@ CREATE TABLE `Batting` (
     `GIDP` INTEGER,
     `G_old` INTEGER,
     PRIMARY KEY ( `playerID`, `yearID`, `stint` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
-DROP TABLE IF EXISTS `BattingPost`;
+
 
 CREATE TABLE `BattingPost` (
     `yearID` INTEGER,
@@ -277,21 +300,19 @@ CREATE TABLE `BattingPost` (
     `SF` INTEGER,
     `GIDP` INTEGER,
     PRIMARY KEY ( `yearID`, `round`, `playerID` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
-DROP TABLE IF EXISTS `CollegePlaying`;
 
 CREATE TABLE `CollegePlaying` (
     `playerID` VARCHAR(9),
     `schoolID` VARCHAR(15),
     `yearID` INTEGER,
-	FOREIGN KEY (`schoolID`) references Schools(`schoolID`)
+    FOREIGN KEY (`schoolID`) references Schools(`schoolID`)
 ) CHARACTER SET 'UTF8';
 
-DROP TABLE IF EXISTS `Fielding`;
 
 CREATE TABLE `Fielding` (
     `playerID` VARCHAR(9),
@@ -313,12 +334,12 @@ CREATE TABLE `Fielding` (
     `CS` INTEGER,
     `ZR` DOUBLE,
     PRIMARY KEY ( `playerID`, `yearID`, `stint`, `POS` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
-DROP TABLE IF EXISTS `FieldingOF`;
+
 
 CREATE TABLE `FieldingOF` (
     `playerID` VARCHAR(9),
@@ -328,12 +349,11 @@ CREATE TABLE `FieldingOF` (
     `Gcf` INTEGER,
     `Grf` INTEGER,
     PRIMARY KEY ( `playerID`, `yearID`, `stint` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
-DROP TABLE IF EXISTS `FieldingPost`;
 
 CREATE TABLE `FieldingPost` (
     `playerID` VARCHAR(9),
@@ -354,8 +374,8 @@ CREATE TABLE `FieldingPost` (
     `SB` INTEGER,
     `CS` INTEGER,
     PRIMARY KEY ( `playerID`, `yearID`, `round`, `POS` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
@@ -370,12 +390,11 @@ CREATE TABLE `HallOfFame` (
     `category` VARCHAR(20),
     `needed_note` VARCHAR(25),
     PRIMARY KEY ( `playerID`, `yearid`, `votedBy` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
-DROP TABLE IF EXISTS `Managers`;
 
 CREATE TABLE `Managers` (
     `playerID` VARCHAR(10),
@@ -389,11 +408,12 @@ CREATE TABLE `Managers` (
     `rank` INTEGER,
     `plyrMgr` VARCHAR(1),
     PRIMARY KEY ( `yearID`, `teamID`, `inseason` ),
-	FOREIGN KEY (`teamID`) references Teams(`teamID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`teamID`) references Teams(`teamID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
-DROP TABLE IF EXISTS `ManagersHalf`;
+
+
 
 CREATE TABLE `ManagersHalf` (
     `playerID` VARCHAR(10),
@@ -407,15 +427,14 @@ CREATE TABLE `ManagersHalf` (
     `L` INTEGER,
     `rank` INTEGER,
     PRIMARY KEY ( `yearID`, `teamID`, `playerID`, `half` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY (`teamID`) references Teams(`teamID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY (`teamID`) references Teams(`teamID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
 
 
-DROP TABLE IF EXISTS `Pitching`;
 
 CREATE TABLE `Pitching` (
     `playerID` VARCHAR(9),
@@ -449,12 +468,12 @@ CREATE TABLE `Pitching` (
     `SF` INTEGER,
     `GIDP` INTEGER,
     PRIMARY KEY ( `playerID`, `yearID`, `stint` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY(`yearID`) references `Teams`(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY(`yearID`) references `Teams`(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
-DROP TABLE IF EXISTS `PitchingPost`;
+
 
 CREATE TABLE `PitchingPost` (
     `playerID` VARCHAR(9),
@@ -488,12 +507,10 @@ CREATE TABLE `PitchingPost` (
     `SF` INTEGER,
     `GIDP` INTEGER,
     PRIMARY KEY ( `playerID`, `yearID`, `round` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
-
-DROP TABLE IF EXISTS `Salaries`;
 
 CREATE TABLE `Salaries` (
     `yearID` INTEGER,
@@ -502,15 +519,15 @@ CREATE TABLE `Salaries` (
     `playerID` VARCHAR(9),
     `salary` DOUBLE,
     PRIMARY KEY ( `yearID`, `teamID`, `lgID`, `playerID` ),
-	FOREIGN KEY (`playerID`) references Master(`playerID`),
-	FOREIGN KEY (`teamID`) references Teams(`teamID`),
-	FOREIGN KEY(`lgID`) references Teams(`lgID`),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY (`playerID`) references Master(`playerID`),
+    FOREIGN KEY (`teamID`) references Teams(`teamID`),
+    FOREIGN KEY(`lgID`) references Teams(`lgID`),
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
 
-DROP TABLE IF EXISTS `SeriesPost`;
+
 
 CREATE TABLE `SeriesPost` (
     `yearID` INTEGER,
@@ -523,12 +540,11 @@ CREATE TABLE `SeriesPost` (
     `losses` INTEGER,
     `ties` INTEGER,
     PRIMARY KEY ( `yearID`, `round` ),
-	FOREIGN KEY(`yearID`) references Teams(`yearID`)
+    FOREIGN KEY(`yearID`) references Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
 
-DROP TABLE IF EXISTS `TeamsFranchises`;
 
 CREATE TABLE `TeamsFranchises` (
     `franchID` VARCHAR(3) PRIMARY KEY,
@@ -538,7 +554,7 @@ CREATE TABLE `TeamsFranchises` (
 ) CHARACTER SET 'UTF8';
 
 
-DROP TABLE IF EXISTS `TeamsHalf`;
+
 
 CREATE TABLE `TeamsHalf` (
     `yearID` INTEGER,
@@ -552,10 +568,10 @@ CREATE TABLE `TeamsHalf` (
     `W` INTEGER,
     `L` INTEGER,
     PRIMARY KEY ( `yearID`, `teamID`, `lgID`, `Half` ),
-	FOREIGN KEY (`teamID`) references Teams(`teamID`),
-	FOREIGN KEY(`lgID`) references Teams(`lgID`),
-	FOREIGN KEY(`yearID`) references `Teams(`yearID`),
-	FOREIGN KEY(`yearID`) references `Teams(`yearID`)
+    FOREIGN KEY (`teamID`) references Teams(`teamID`),
+    FOREIGN KEY(`lgID`) references Teams(`lgID`),
+    FOREIGN KEY(`yearID`) references `Teams(`yearID`),
+    FOREIGN KEY(`yearID`) references `Teams(`yearID`)
 ) CHARACTER SET 'UTF8';
 
 
