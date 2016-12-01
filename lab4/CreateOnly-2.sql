@@ -122,7 +122,7 @@ CREATE TABLE `Schools` (
     `name_full` VARCHAR(255),
     `city` VARCHAR(55),
     `state` VARCHAR(55),
-    `country` VARCHAR(55)
+    `country` VARCHAR(55),
     PRIMARY KEY (schoolID)
 ) CHARACTER SET 'UTF8';
 
@@ -313,7 +313,7 @@ CREATE TABLE `CollegePlaying` (
     `schoolID` VARCHAR(15) NOT NULL UNIQUE,
     `yearID` INTEGER NOT NULL UNIQUE,
     PRIMARY KEY (`playerID`,`schoolID`,`yearID`),
-    FOREIGN KEY (`schoolID`) references Schools(`schoolID`) ON DELETE CASCADE
+    FOREIGN KEY (`schoolID`) references Schools(`schoolID`) ON DELETE CASCADE,
     FOREIGN KEY (`playerID`) references Master(`playerID`) ON DELETE CASCADE,
     FOREIGN KEY(`yearID`) references Teams(`yearID`) ON DELETE CASCADE
 ) CHARACTER SET 'UTF8';
