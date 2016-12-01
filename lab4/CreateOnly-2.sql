@@ -123,7 +123,7 @@ CREATE TABLE `Schools` (
     `city` VARCHAR(55),
     `state` VARCHAR(55),
     `country` VARCHAR(55)
-    PRIMARY KEY (schoolID),
+    PRIMARY KEY (schoolID)
 ) CHARACTER SET 'UTF8';
 
 
