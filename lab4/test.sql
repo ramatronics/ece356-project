@@ -136,7 +136,6 @@ CREATE TABLE `TeamsHalf` (
     `W` INTEGER,
     `L` INTEGER,
     PRIMARY KEY ( `yearID`, `teamID`, `lgID`, `Half` ),
-    FOREIGN KEY (`teamID`) references Teams(`teamID`) ON DELETE CASCADE,
     FOREIGN KEY (`lgID`) references Teams(`lgID`) ON DELETE CASCADE,
     FOREIGN KEY (`yearID`) references Teams(`yearID`) ON DELETE CASCADE
 ) CHARACTER SET 'UTF8';
