@@ -30,7 +30,7 @@ DROP TABLE IF EXISTS `Teams`;
 DROP TABLE IF EXISTS `Schools`;
 
 CREATE TABLE `Master` (
-    `playerID` VARCHAR(10) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL UNIQUE,
     `birthYear` INTEGER,
     `birthMonth` INTEGER,
     `birthDay` INTEGER,
@@ -108,13 +108,18 @@ CREATE TABLE `Teams` (
     `teamIDBR` VARCHAR(3),
     `teamIDlahman45` VARCHAR(3),
     `teamIDretro` VARCHAR(3),
-    PRIMARY KEY ( `yearID`, `lgID`, `teamID`, `divID`, `franchID` )
+    PRIMARY KEY ( `yearID`, `lgID`, `teamID`, `divID`, `franchID` ),
+    KEY(yearID),
+    KEY(lgID),
+    KEY(teamID),
+    KEY(divID),
+    KEY(franchID)
 ) CHARACTER SET 'UTF8';
 
 
 
 CREATE TABLE `Schools` (
-    `schoolID` VARCHAR(15) NOT NULL,
+    `schoolID` VARCHAR(15) NOT NULL UNIQUE,
     `name_full` VARCHAR(255),
     `city` VARCHAR(55),
     `state` VARCHAR(55),
