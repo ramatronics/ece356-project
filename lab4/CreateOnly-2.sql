@@ -108,7 +108,7 @@ CREATE TABLE `Teams` (
     `teamIDBR` VARCHAR(3),
     `teamIDlahman45` VARCHAR(3),
     `teamIDretro` VARCHAR(3),
-    PRIMARY KEY ( `yearID`, `lgID`, `teamID`, `divID`, `franchID` ),
+    PRIMARY KEY ( `yearID`, `lgID`, `teamID`, `divID`, `franchID` )
 ) CHARACTER SET 'UTF8';
 
 
