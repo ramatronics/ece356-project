@@ -54,7 +54,7 @@ CREATE TABLE `Master` (
     `finalGame` DATETIME,
     `retroID` VARCHAR(9),
     `bbrefID` VARCHAR(9),
-    PRIMARY KEY ('playerID')
+    PRIMARY KEY (`playerID`)
 ) CHARACTER SET 'UTF8';
 
 
@@ -108,7 +108,7 @@ CREATE TABLE `Teams` (
     `teamIDBR` VARCHAR(3),
     `teamIDlahman45` VARCHAR(3),
     `teamIDretro` VARCHAR(3),
-    PRIMARY KEY ( `yearID`, `lgID`, `teamID`, 'divID', 'franchID' ),
+    PRIMARY KEY ( `yearID`, `lgID`, `teamID`, `divID`, `franchID` ),
 ) CHARACTER SET 'UTF8';
 
 
@@ -119,7 +119,7 @@ CREATE TABLE `Schools` (
     `city` VARCHAR(55),
     `state` VARCHAR(55),
     `country` VARCHAR(55),
-    PRIMARY KEY ('schoolID')
+    PRIMARY KEY (`schoolID`)
 ) CHARACTER SET 'UTF8';
 
 
