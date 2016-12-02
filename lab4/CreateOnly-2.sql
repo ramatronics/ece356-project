@@ -30,7 +30,7 @@ DROP TABLE IF EXISTS `Teams`;
 DROP TABLE IF EXISTS `Schools`;
 
 CREATE TABLE `Master` (
-    `playerID` VARCHAR(10) PRIMARY KEY,
+    `playerID` VARCHAR(10) NOT NULL,
     `birthYear` INTEGER,
     `birthMonth` INTEGER,
     `birthDay` INTEGER,
@@ -53,17 +53,18 @@ CREATE TABLE `Master` (
     `debut` DATETIME,
     `finalGame` DATETIME,
     `retroID` VARCHAR(9),
-    `bbrefID` VARCHAR(9)
+    `bbrefID` VARCHAR(9),
+    PRIMARY KEY ('playerID')
 ) CHARACTER SET 'UTF8';
 
 
 
 CREATE TABLE `Teams` (
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `lgID` VARCHAR(2) NOT NULL UNIQUE,
-    `teamID` VARCHAR(3) NOT NULL UNIQUE,
-    `franchID` VARCHAR(3) NOT NULL UNIQUE,
-    `divID` VARCHAR(1) NOT NULL UNIQUE,
+    `yearID` INTEGER NOT NULL,
+    `lgID` VARCHAR(2) NOT NULL,
+    `teamID` VARCHAR(3) NOT NULL,
+    `franchID` VARCHAR(3) NOT NULL,
+    `divID` VARCHAR(1) NOT NULL,
     `Rank` INTEGER,
     `G` INTEGER,
     `Ghome` INTEGER,
@@ -107,23 +108,18 @@ CREATE TABLE `Teams` (
     `teamIDBR` VARCHAR(3),
     `teamIDlahman45` VARCHAR(3),
     `teamIDretro` VARCHAR(3),
-    PRIMARY KEY ( `yearID`, `lgID`, `teamID` ),
-    KEY(yearID),
-    KEY(lgID),
-    KEY(teamID),
-    KEY(divID),
-    KEY(franchID)
+    PRIMARY KEY ( `yearID`, `lgID`, `teamID`, 'divID', 'franchID' ),
 ) CHARACTER SET 'UTF8';
 
 
 
 CREATE TABLE `Schools` (
-    `schoolID` VARCHAR(15) NOT NULL UNIQUE,
+    `schoolID` VARCHAR(15) NOT NULL,
     `name_full` VARCHAR(255),
     `city` VARCHAR(55),
     `state` VARCHAR(55),
     `country` VARCHAR(55),
-    PRIMARY KEY (schoolID)
+    PRIMARY KEY ('schoolID')
 ) CHARACTER SET 'UTF8';
 
 
@@ -131,9 +127,9 @@ CREATE TABLE `Schools` (
 
 
 CREATE TABLE `AllstarFull` (
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `gameNum` INTEGER NOT NULL UNIQUE,
+    `playerID` VARCHAR(9) NOT NULL,
+    `yearID` INTEGER NOT NULL,
+    `gameNum` INTEGER NOT NULL,
     `gameID` VARCHAR(12),
     `teamID` VARCHAR(3),
     `lgID` VARCHAR(2),
@@ -149,10 +145,10 @@ CREATE TABLE `AllstarFull` (
 
 
 CREATE TABLE `Appearances` (
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `teamID` VARCHAR(3) NOT NULL UNIQUE,
+    `yearID` INTEGER NOT NULL,
+    `teamID` VARCHAR(3) NOT NULL,
     `lgID` VARCHAR(2),
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
+    `playerID` VARCHAR(9) NOT NULL,
     `G_all` INTEGER,
     `GS` INTEGER,
     `G_batting` INTEGER,
@@ -181,10 +177,10 @@ CREATE TABLE `Appearances` (
 
 
 CREATE TABLE `AwardsManagers` (
-    `playerID` VARCHAR(10) NOT NULL UNIQUE,
-    `awardID` VARCHAR(75) NOT NULL UNIQUE,
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `lgID` VARCHAR(2) NOT NULL UNIQUE,
+    `playerID` VARCHAR(10) NOT NULL,
+    `awardID` VARCHAR(75) NOT NULL,
+    `yearID` INTEGER NOT NULL,
+    `lgID` VARCHAR(2) NOT NULL,
     `tie` VARCHAR(1),
     `notes` VARCHAR(100),
     PRIMARY KEY ( `yearID`, `awardID`, `lgID`, `playerID` ),
@@ -196,10 +192,10 @@ CREATE TABLE `AwardsManagers` (
 
 
 CREATE TABLE `AwardsPlayers` (
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
-    `awardID` VARCHAR(255) NOT NULL UNIQUE,
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `lgID` VARCHAR(2) NOT NULL UNIQUE,
+    `playerID` VARCHAR(9) NOT NULL,
+    `awardID` VARCHAR(255) NOT NULL,
+    `yearID` INTEGER NOT NULL,
+    `lgID` VARCHAR(2) NOT NULL,
     `tie` VARCHAR(1),
     `notes` VARCHAR(100),
     PRIMARY KEY ( `yearID`, `awardID`, `lgID`, `playerID` ),
@@ -212,10 +208,10 @@ CREATE TABLE `AwardsPlayers` (
 
 
 CREATE TABLE `AwardsShareManagers` (
-    `awardID` VARCHAR(25) NOT NULL UNIQUE,
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `lgID` VARCHAR(2) NOT NULL UNIQUE,
-    `playerID` VARCHAR(10) NOT NULL UNIQUE,
+    `awardID` VARCHAR(25) NOT NULL,
+    `yearID` INTEGER NOT NULL,
+    `lgID` VARCHAR(2) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `pointsWon` INTEGER,
     `pointsMax` INTEGER,
     `votesFirst` INTEGER,
@@ -229,10 +225,10 @@ CREATE TABLE `AwardsShareManagers` (
 
 
 CREATE TABLE `AwardsSharePlayers` (
-    `awardID` VARCHAR(25) NOT NULL UNIQUE,
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `lgID` VARCHAR(2) NOT NULL UNIQUE,
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
+    `awardID` VARCHAR(25) NOT NULL,
+    `yearID` INTEGER NOT NULL,
+    `lgID` VARCHAR(2) NOT NULL,
+    `playerID` VARCHAR(9) NOT NULL,
     `pointsWon` DOUBLE,
     `pointsMax` INTEGER,
     `votesFirst` DOUBLE,
@@ -246,9 +242,9 @@ CREATE TABLE `AwardsSharePlayers` (
 
 
 CREATE TABLE `Batting` (
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `stint` INTEGER NOT NULL UNIQUE,
+    `playerID` VARCHAR(9) NOT NULL,
+    `yearID` INTEGER NOT NULL,
+    `stint` INTEGER NOT NULL,
     `teamID` VARCHAR(3),
     `lgID` VARCHAR(2),
     `G` INTEGER,
@@ -278,9 +274,9 @@ CREATE TABLE `Batting` (
 
 
 CREATE TABLE `BattingPost` (
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `round` VARCHAR(10) NOT NULL UNIQUE,
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
+    `yearID` INTEGER NOT NULL,
+    `round` VARCHAR(10) NOT NULL,
+    `playerID` VARCHAR(9) NOT NULL,
     `teamID` VARCHAR(3),
     `lgID` VARCHAR(2),
     `G` INTEGER,
@@ -309,9 +305,9 @@ CREATE TABLE `BattingPost` (
 
 
 CREATE TABLE `CollegePlaying` (
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
-    `schoolID` VARCHAR(15) NOT NULL UNIQUE,
-    `yearID` INTEGER NOT NULL UNIQUE,
+    `playerID` VARCHAR(9) NOT NULL,
+    `schoolID` VARCHAR(15) NOT NULL,
+    `yearID` INTEGER NOT NULL,
     PRIMARY KEY (`playerID`,`schoolID`,`yearID`),
     FOREIGN KEY (`schoolID`) references Schools(`schoolID`) ON DELETE CASCADE,
     FOREIGN KEY (`playerID`) references Master(`playerID`) ON DELETE CASCADE,
@@ -319,12 +315,12 @@ CREATE TABLE `CollegePlaying` (
 ) CHARACTER SET 'UTF8';
 
 CREATE TABLE `Fielding` (
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `stint` INTEGER NOT NULL UNIQUE,
+    `playerID` VARCHAR(9) NOT NULL,
+    `yearID` INTEGER NOT NULL,
+    `stint` INTEGER NOT NULL,
     `teamID` VARCHAR(3),
     `lgID` VARCHAR(2),
-    `POS` VARCHAR(2) NOT NULL UNIQUE,
+    `POS` VARCHAR(2) NOT NULL,
     `G` INTEGER,
     `GS` INTEGER,
     `InnOuts` INTEGER,
@@ -346,7 +342,7 @@ CREATE TABLE `Fielding` (
 
 
 CREATE TABLE `FieldingOF` (
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
+    `playerID` VARCHAR(9) NOT NULL,
     `yearID` INTEGER,
     `stint` INTEGER,
     `Glf` INTEGER,
@@ -360,12 +356,12 @@ CREATE TABLE `FieldingOF` (
 
 
 CREATE TABLE `FieldingPost` (
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
-    `yearID` INTEGER NOT NULL UNIQUE,
+    `playerID` VARCHAR(9) NOT NULL,
+    `yearID` INTEGER NOT NULL,
     `teamID` VARCHAR(3),
     `lgID` VARCHAR(2),
-    `round` VARCHAR(10) NOT NULL UNIQUE,
-    `POS` VARCHAR(2) NOT NULL UNIQUE,
+    `round` VARCHAR(10) NOT NULL,
+    `POS` VARCHAR(2) NOT NULL,
     `G` INTEGER,
     `GS` INTEGER,
     `InnOuts` INTEGER,
@@ -384,9 +380,9 @@ CREATE TABLE `FieldingPost` (
 
 
 CREATE TABLE `HallOfFame` (
-    `playerID` VARCHAR(10) NOT NULL UNIQUE,
-    `yearid` INTEGER NOT NULL UNIQUE,
-    `votedBy` VARCHAR(64) NOT NULL UNIQUE,
+    `playerID` VARCHAR(10) NOT NULL,
+    `yearid` INTEGER NOT NULL,
+    `votedBy` VARCHAR(64) NOT NULL,
     `ballots` INTEGER,
     `needed` INTEGER,
     `votes` INTEGER,
@@ -402,10 +398,10 @@ CREATE TABLE `HallOfFame` (
 
 CREATE TABLE `Managers` (
     `playerID` VARCHAR(10),
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `teamID` VARCHAR(3) NOT NULL UNIQUE,
+    `yearID` INTEGER NOT NULL,
+    `teamID` VARCHAR(3) NOT NULL,
     `lgID` VARCHAR(2),
-    `inseason` INTEGER NOT NULL UNIQUE,
+    `inseason` INTEGER NOT NULL,
     `G` INTEGER,
     `W` INTEGER,
     `L` INTEGER,
@@ -420,12 +416,12 @@ CREATE TABLE `Managers` (
 
 
 CREATE TABLE `ManagersHalf` (
-    `playerID` VARCHAR(10) NOT NULL UNIQUE,
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `teamID` VARCHAR(3) NOT NULL UNIQUE,
+    `playerID` VARCHAR(10) NOT NULL,
+    `yearID` INTEGER NOT NULL,
+    `teamID` VARCHAR(3) NOT NULL,
     `lgID` VARCHAR(2),
     `inseason` INTEGER,
-    `half` INTEGER NOT NULL UNIQUE,
+    `half` INTEGER NOT NULL,
     `G` INTEGER,
     `W` INTEGER,
     `L` INTEGER,
@@ -441,9 +437,9 @@ CREATE TABLE `ManagersHalf` (
 
 
 CREATE TABLE `Pitching` (
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `stint` INTEGER NOT NULL UNIQUE,
+    `playerID` VARCHAR(9) NOT NULL,
+    `yearID` INTEGER NOT NULL,
+    `stint` INTEGER NOT NULL,
     `teamID` VARCHAR(3),
     `lgID` VARCHAR(2),
     `W` INTEGER,
@@ -480,9 +476,9 @@ CREATE TABLE `Pitching` (
 
 
 CREATE TABLE `PitchingPost` (
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `round` VARCHAR(10) NOT NULL UNIQUE,
+    `playerID` VARCHAR(9) NOT NULL,
+    `yearID` INTEGER NOT NULL,
+    `round` VARCHAR(10) NOT NULL,
     `teamID` VARCHAR(3),
     `lgID` VARCHAR(2),
     `W` INTEGER,
@@ -517,10 +513,10 @@ CREATE TABLE `PitchingPost` (
 
 
 CREATE TABLE `Salaries` (
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `teamID` VARCHAR(3) NOT NULL UNIQUE,
-    `lgID` VARCHAR(2) NOT NULL UNIQUE,
-    `playerID` VARCHAR(9) NOT NULL UNIQUE,
+    `yearID` INTEGER NOT NULL,
+    `teamID` VARCHAR(3) NOT NULL,
+    `lgID` VARCHAR(2) NOT NULL,
+    `playerID` VARCHAR(9) NOT NULL,
     `salary` DOUBLE,
     PRIMARY KEY ( `yearID`, `teamID`, `lgID`, `playerID` ),
     FOREIGN KEY (`playerID`) references Master(`playerID`) ON DELETE CASCADE,
@@ -534,8 +530,8 @@ CREATE TABLE `Salaries` (
 
 
 CREATE TABLE `SeriesPost` (
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `round` VARCHAR(5) NOT NULL UNIQUE,
+    `yearID` INTEGER NOT NULL,
+    `round` VARCHAR(5) NOT NULL,
     `teamIDwinner` VARCHAR(3),
     `lgIDwinner` VARCHAR(2),
     `teamIDloser` VARCHAR(3),
@@ -551,7 +547,7 @@ CREATE TABLE `SeriesPost` (
 
 
 CREATE TABLE `TeamsFranchises` (
-    `franchID` VARCHAR(3) NOT NULL UNIQUE,
+    `franchID` VARCHAR(3) NOT NULL,
     `franchName` VARCHAR(50),
     `active` VARCHAR(2),
     `NAassoc` VARCHAR(3),
@@ -562,10 +558,10 @@ CREATE TABLE `TeamsFranchises` (
 
 
 CREATE TABLE `TeamsHalf` (
-    `yearID` INTEGER NOT NULL UNIQUE,
-    `lgID` VARCHAR(2) NOT NULL UNIQUE,
-    `teamID` VARCHAR(3)NOT NULL UNIQUE,
-    `Half` VARCHAR(1) NOT NULL UNIQUE,
+    `yearID` INTEGER NOT NULL,
+    `lgID` VARCHAR(2) NOT NULL,
+    `teamID` VARCHAR(3)NOT NULL,
+    `Half` VARCHAR(1) NOT NULL,
     `divID` VARCHAR(1),
     `DivWin` VARCHAR(1),
     `Rank` INTEGER,
