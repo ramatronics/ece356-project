@@ -127,7 +127,7 @@ CREATE TABLE `Schools` (
 
 
 CREATE TABLE `AllstarFull` (
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `yearID` INTEGER NOT NULL,
     `gameNum` INTEGER NOT NULL,
     `gameID` VARCHAR(12),
@@ -148,7 +148,7 @@ CREATE TABLE `Appearances` (
     `yearID` INTEGER NOT NULL,
     `teamID` VARCHAR(3) NOT NULL,
     `lgID` VARCHAR(2),
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `G_all` INTEGER,
     `GS` INTEGER,
     `G_batting` INTEGER,
@@ -192,7 +192,7 @@ CREATE TABLE `AwardsManagers` (
 
 
 CREATE TABLE `AwardsPlayers` (
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `awardID` VARCHAR(255) NOT NULL,
     `yearID` INTEGER NOT NULL,
     `lgID` VARCHAR(2) NOT NULL,
@@ -228,7 +228,7 @@ CREATE TABLE `AwardsSharePlayers` (
     `awardID` VARCHAR(25) NOT NULL,
     `yearID` INTEGER NOT NULL,
     `lgID` VARCHAR(2) NOT NULL,
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `pointsWon` DOUBLE,
     `pointsMax` INTEGER,
     `votesFirst` DOUBLE,
@@ -242,7 +242,7 @@ CREATE TABLE `AwardsSharePlayers` (
 
 
 CREATE TABLE `Batting` (
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `yearID` INTEGER NOT NULL,
     `stint` INTEGER NOT NULL,
     `teamID` VARCHAR(3),
@@ -276,7 +276,7 @@ CREATE TABLE `Batting` (
 CREATE TABLE `BattingPost` (
     `yearID` INTEGER NOT NULL,
     `round` VARCHAR(10) NOT NULL,
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `teamID` VARCHAR(3),
     `lgID` VARCHAR(2),
     `G` INTEGER,
@@ -305,7 +305,7 @@ CREATE TABLE `BattingPost` (
 
 
 CREATE TABLE `CollegePlaying` (
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `schoolID` VARCHAR(15) NOT NULL,
     `yearID` INTEGER NOT NULL,
     PRIMARY KEY (`playerID`,`schoolID`,`yearID`),
@@ -315,7 +315,7 @@ CREATE TABLE `CollegePlaying` (
 ) CHARACTER SET 'UTF8';
 
 CREATE TABLE `Fielding` (
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `yearID` INTEGER NOT NULL,
     `stint` INTEGER NOT NULL,
     `teamID` VARCHAR(3),
@@ -342,7 +342,7 @@ CREATE TABLE `Fielding` (
 
 
 CREATE TABLE `FieldingOF` (
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `yearID` INTEGER,
     `stint` INTEGER,
     `Glf` INTEGER,
@@ -356,7 +356,7 @@ CREATE TABLE `FieldingOF` (
 
 
 CREATE TABLE `FieldingPost` (
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `yearID` INTEGER NOT NULL,
     `teamID` VARCHAR(3),
     `lgID` VARCHAR(2),
@@ -437,7 +437,7 @@ CREATE TABLE `ManagersHalf` (
 
 
 CREATE TABLE `Pitching` (
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `yearID` INTEGER NOT NULL,
     `stint` INTEGER NOT NULL,
     `teamID` VARCHAR(3),
@@ -476,7 +476,7 @@ CREATE TABLE `Pitching` (
 
 
 CREATE TABLE `PitchingPost` (
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `yearID` INTEGER NOT NULL,
     `round` VARCHAR(10) NOT NULL,
     `teamID` VARCHAR(3),
@@ -516,7 +516,7 @@ CREATE TABLE `Salaries` (
     `yearID` INTEGER NOT NULL,
     `teamID` VARCHAR(3) NOT NULL,
     `lgID` VARCHAR(2) NOT NULL,
-    `playerID` VARCHAR(9) NOT NULL,
+    `playerID` VARCHAR(10) NOT NULL,
     `salary` DOUBLE,
     PRIMARY KEY ( `yearID`, `teamID`, `lgID`, `playerID` ),
     FOREIGN KEY (`playerID`) references Master(`playerID`) ON DELETE CASCADE,
